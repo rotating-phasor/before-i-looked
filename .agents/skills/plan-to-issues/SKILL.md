@@ -14,8 +14,8 @@ in a shell this agent can run.
 2. Draft the split as a table: title · plan section · scope · done when · blocked by.
    One issue per unit of work.
 3. **Stop and show the table to the human.** Publish nothing until they approve it.
-4. Ask the human what every issue here must carry (fields, labels, wording), unless it is
-   already written down in this session or in the repo.
+4. Every issue carries the shape in [What every issue carries](#what-every-issue-carries). Ask
+   the human only about anything a plan needs beyond it.
 5. Create each issue in dependency order, so blocked-by can cite real numbers:
 
    ```sh
@@ -29,6 +29,45 @@ Closing one, with the closing comment from AGENTS.md:
 ```sh
 gh issue close <n> -c "<closing comment>"
 ```
+
+## What every issue carries
+
+Agreed with the human on 2026-11-08 for plan morning-digest. Use it for every plan here.
+
+- Label: `plan:<plan name from plan.md frontmatter>`. Create the label first if it is missing.
+- Body, in this order:
+
+  ```md
+  Source: plan.md § <n>
+
+  ## Scope
+  <what to build, from the plan section; the rules that apply (ADRs, styleguide)>
+
+  ## Done when
+  <the plan's done line, word for word>
+
+  ## Blocked by
+  <#n of each issue it waits on, or —; say when only part of it is needed to start>
+
+  ## Suggested model
+  <strongest model for logic; a cheaper one for views and tests>
+  ```
+
+- The first line is exactly `Source: plan.md § <n>`, with the plan's own section number
+  (`§ 2a` for a subsection). The reviewer sorts issues by it.
+
+### Steps that wait on someone else
+
+A step that waits on a person outside the lane (a reviewer, a customer) is done when they
+confirm, not when we send. Write its done line that way, and write the wait into Blocked by
+(for example `#6, and the reviewer's review being in`). Keep the issue open until they
+confirm, and keep every issue that depends on their answer (a clean-up, a marker removal)
+blocked by it. Closing on "sent" was refused once on this repo.
+
+### Closing
+
+Commits that say `closes #n` close the issue on push, before anyone can comment. Push them,
+then add the closing comment with `gh issue comment <n> -b "..."`, or close by hand first.
 
 ## No `gh`
 
